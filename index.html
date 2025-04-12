@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وجبتي - خطة وجبات ذكية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS الأساسي */
+        :root {
+            --primary: #8BC34A;
+            --primary-dark: #689F38;
+            --secondary: #FF9800;
+            --secondary-dark: #F57C00;
+            --light: #F5F5F5;
+            --dark: #333333;
+            --white: #FFFFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.3s;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-left: 10px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-right: 20px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            bottom: -5px;
+            right: 0;
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 100px;
+            background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            margin-top: 60px;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+        }
+        
+        .hero-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+        
+        .hero-title span {
+            color: var(--primary);
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background-color: var(--primary);
+            bottom: -10px;
+            right: 25%;
+        }
+        
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 50px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        /* Meal Planner */
+        .planner-form {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .submit-btn {
+            background-color: var(--secondary);
+            color: var(--white);
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--secondary-dark);
+        }
+        
+        /* Meal Plan */
+        .meal-plan {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .meal-plan-header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .meal-plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1px;
+            background-color: #ddd;
+        }
+        
+        .meal-day {
+            background-color: var(--white);
+            padding: 15px;
+        }
+        
+        .meal-day h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        
+        .meal-item {
+            margin-bottom: 10px;
+        }
+        
+        /* AI Assistant */
+        .ai-assistant {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .assistant-btn {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .assistant-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .ai-modal {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            max-height: 500px;
+        }
+        
+        .ai-modal.active {
+            display: flex;
+        }
+        
+        .ai-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .ai-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            max-height: 350px;
+        }
+        
+        .ai-message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+        }
+        
+        .ai-input-container {
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .ai-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .ai-modal {
+                width: 90%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>وجبتي</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#features">المميزات</a></li>
+                    <li><a href="#how-it-works">كيف يعمل</a></li>
+                    <li><a href="#meal-planner">صمم وجباتك</a></li>
+                    <li><a href="#contact">اتصل بنا</a></li>
+                </ul>
+            </nav>
+            <div>
+                <a href="#" class="btn btn-outline">تسجيل دخول</a>
+                <a href="#" class="btn btn-primary">اشترك الآن</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">خطط وجبات <span>ذكية</span> تناسب أسلوب حياتك</h1>
+                <p class="hero-subtitle">ذكاء اصطناعي متقدم يصمم لك خطة وجبات أسبوعية كاملة بناءً على تفضيلاتك الشخصية</p>
+                <div class="hero-buttons">
+                    <a href="#meal-planner" class="btn btn-primary">صمم وجباتك الآن</a>
+                    <a href="#" class="btn btn-outline">شاهد عروضنا</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section-features">
+        <div class="container">
+            <div class="section-title">
+                <h2>مميزات وجبتي</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>مساعد ذكي</h3>
+                    <p>ذكاء اصطناعي يسألك عن تفضيلاتك ويصمم خطة مخصصة لك</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>وصفات متنوعة</h3>
+                    <p>مئات الوصفات الصحية واللذيذة لجميع الأنظمة الغذائية</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shopping-basket"></i>
+                    </div>
+                    <h3>قائمة تسوق</h3>
+                    <p>تلقائياً نجهز لك قائمة تسوق تحتوي كل ما تحتاجه</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="section-how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>كيف يعمل وجبتي؟</h2>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>أخبرنا عن نفسك</h3>
+                    <p>اخبرنا عن نظامك الغذائي، تفضيلاتك، وأي حساسيات لديك</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>احصل على خطتك</h3>
+                    <p>سيصمم لك الذكاء الاصطناعي خطة وجبات أسبوعية مخصصة</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>استمتع بوجباتك</h3>
+                    <p>اطبخ واستمتع بوجبات صحية ولذيذة كل يوم</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meal Planner -->
+    <section id="meal-planner" class="section-planner">
+        <div class="container">
+            <div class="section-title">
+                <h2>صمم خطة وجباتك</h2>
+            </div>
+            <div class="planner-form">
+                <form id="meal-planner-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="people">عدد الأشخاص</label>
+                            <select id="people" class="form-control">
+                                <option value="1">1 شخص</option>
+                                <option value="2">2 أشخاص</option>
+                                <option value="4">4 أشخاص</option>
+                                <option value="6">6+ أشخاص</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="diet">النظام الغذائي</label>
+                            <select id="diet" class="form-control">
+                                <option value="regular">عادي</option>
+                                <option value="vegetarian">نباتي</option>
+                                <option value="vegan">نباتي صرف</option>
+                                <option value="keto">كيتو</option>
+                                <option value="low-carb">قليل الكربوهيدرات</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="budget">الميزانية الأسبوعية</label>
+                        <select id="budget" class="form-control">
+                            <option value="economy">اقتصادية</option>
+                            <option value="medium">متوسطة</option>
+                            <option value="premium">فاخرة</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>تجنب هذه المكونات</label>
+                        <div class="exclude-options">
+                            <label><input type="checkbox" name="exclude" value="gluten"> الجلوتين</label>
+                            <label><input type="checkbox" name="exclude" value="dairy"> الألبان</label>
+                            <label><input type="checkbox" name="exclude" value="nuts"> المكسرات</label>
+                            <label><input type="checkbox" name="exclude" value="seafood"> المأكولات البحرية</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">أنشئ خطتي</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sample Meal Plan -->
+    <section class="section-sample-plan">
+        <div class="container">
+            <div class="section-title">
+                <h2>خطة وجبات نموذجية</h2>
+            </div>
+            <div class="meal-plan">
+                <div class="meal-plan-header">
+                    <h3>خطة وجبات الأسبوع</h3>
+                </div>
+                <div class="meal-plan-grid">
+                    <div class="meal-day">
+                        <h4>الأحد</h4>
+                        <div class="meal-item">
+                            <strong>الفطور:</strong> شوفان بالحليب والموز
+                        </div>
+                        <div class="meal-item">
+                            <strong>الغداء:</strong> صدر دجاج مشوي مع أرز بني وخضار
+                        </div>
+                        <div class="meal-item">
+                            <strong>العشاء:</strong> سلطة التونة مع خبز توست
+                        </div>
+                    </div>
+                    <div class="meal-day">
+                        <h4>الإثنين</h4>
+                        <div class="meal-item">
+                            <strong>الفطور:</strong> بيض مسلوق مع خبز توست وأفوكادو
+                        </div>
+                        <div class="meal-item">
+                            <strong>الغداء:</strong> سمك مشوي مع بطاطا حلوة وسلطة
+                        </div>
+                        <div class="meal-item">
+                            <strong>العشاء:</strong> شوربة عدس مع خبز قمح كامل
+                        </div>
+                    </div>
+                    <div class="meal-day">
+                        <h4>الثلاثاء</h4>
+                        <div class="meal-item">
+                            <strong>الفطور:</strong> سموثي أخضر مع بذور الشيا
+                        </div>
+                        <div class="meal-item">
+                            <strong>الغداء:</strong> معكرونة بالدجاج والخضار
+                        </div>
+                        <div class="meal-item">
+                            <strong>العشاء:</strong> سندويشات جبنة وخضار
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant">
+        <div class="assistant-btn" id="assistant-btn">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="ai-modal" id="ai-modal">
+            <div class="ai-header">
+                <h3>مساعد وجبتي</h3>
+                <button id="close-ai">&times;</button>
+            </div>
+            <div class="ai-messages" id="ai-messages">
+                <div class="ai-message">
+                    مرحباً! أنا مساعد وجبتي. كيف يمكنني مساعدتك في التخطيط لوجباتك؟
+                </div>
+            </div>
+            <div class="ai-input-container">
+                <input type="text" class="ai-input" id="ai-input" placeholder="اكتب رسالتك هنا...">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Header Scroll Effect
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                document.querySelector('header').style.padding = '10px 0';
+                document.querySelector('header').style.background = 'rgba(255,255,255,0.95)';
+            } else {
+                document.querySelector('header').style.padding = '15px 0';
+                document.querySelector('header').style.background = 'var(--white)';
+            }
+        });
+
+        // AI Assistant
+        const assistantBtn = document.getElementById('assistant-btn');
+        const aiModal = document.getElementById('ai-modal');
+        const closeAi = document.getElementById('close-ai');
+        const aiMessages = document.getElementById('ai-messages');
+        const aiInput = document.getElementById('ai-input');
+        
+        assistantBtn.addEventListener('click', function() {
+            aiModal.classList.toggle('active');
+        });
+        
+        closeAi.addEventListener('click', function() {
+            aiModal.classList.remove('active');
+        });
+        
+        aiInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && aiInput.value.trim() !== '') {
+                const message = aiInput.value;
+                aiInput.value = '';
+                
+                // Add user message
+                addMessage(message, 'user');
+                
+                // Simulate AI response
+                setTimeout(function() {
+                    const responses = [
+                        "رائع! لدي العديد من الأفكار لوجبات لذيذة. هل يمكنك إخباري بنظامك الغذائي المفضل؟",
+                        "كم عدد الأشخاص الذين تخطط لهم؟",
+                        "هل لديك أي مكونات تفضل تجنبها؟",
+                        "بناءً على تفضيلاتك، أقترح البدء بهذه الوجبات..."
+                    ];
+                    
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessage(randomResponse, 'ai');
+                }, 1000);
+            }
+        });
+        
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'ai-message';
+            if (sender === 'user') {
+                messageDiv.style.textAlign = 'left';
+                messageDiv.style.marginRight = '20px';
+                messageDiv.style.background = '#e3f2fd';
+            }
+            messageDiv.textContent = text;
+            aiMessages.appendChild(messageDiv);
+            aiMessages.scrollTop = aiMessages.scrollHeight;
+        }
+
+        // Meal Planner Form
+        const mealForm = document.getElementById('meal-planner-form');
+        mealForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const people = document.getElementById('people').value;
+            const diet = document.getElementById('diet').value;
+            const budget = document.getElementById('budget').value;
+            const excludes = Array.from(document.querySelectorAll('input[name="exclude"]:checked')).map(el => el.value);
+            
+            alert(`تم إنشاء خطة وجبات لـ ${people} أشخاص بنظام ${diet} وميزانية ${budget}`);
+            
+            // In a real app, you would generate the meal plan here
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
